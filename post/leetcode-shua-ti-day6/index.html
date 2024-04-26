@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode刷题Day6 | Frank&#39;s Blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ZeweiXu0219.github.io/favicon.ico?v=1714151395678">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ZeweiXu0219.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://ZeweiXu0219.github.io">
+        <img class="avatar" src="https://ZeweiXu0219.github.io/images/avatar.png?v=1714151395678" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://ZeweiXu0219.github.io">
+        <h1 class="site-title">Frank&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/post/wen-zhang-mu-lu" class="menu purple-link">
+            文章目录
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            所有文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Leetcode刷题Day6</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2024-04-22</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p><strong>主题：哈希表</strong></p>
+<p>当我们遇到了要<font color=red>快速判断一个元素是否出现集合</font>里的时候，就要考虑哈希法!</p>
+<h2 id="经典题目">经典题目：</h2>
+<h3 id="有效的字母异位词">有效的字母异位词</h3>
+<p><a href="https://leetcode.cn/problems/valid-anagram/description/">力扣242. 有效的字母异位词</a></p>
+<p>题目要求：<br>
+输入两个字符串：s和t<br>
+s和t中字母出现的次数和种类要严格相同</p>
+<ul>
+<li>其中我们需要快速判断一个字母是否在另外一个单词中出现过</li>
+</ul>
+<pre><code class="language-python">def isAnagram(s,t):
+    HashMap = [0 for _ in range(26)]
+    for l in s:
+        l_idx = ord(l)-ord(&quot;a&quot;)
+        HashMap[l_idx] += 1
+    for l in t:
+        l_idx = ord(l)-ord(&quot;a&quot;)
+        if HashMap[l_idx] &gt; 0:
+            HashMap[l_idx] -= 1
+        else:
+            return False
+    for num in HashMap:
+        if num != 0:
+            return False
+    return True
+
+</code></pre>
+<hr>
+<h3 id="两个数组的交集">两个数组的交集</h3>
+<p><a href="https://leetcode.cn/problems/intersection-of-two-arrays/description/">力扣349. 两个数组的交集</a></p>
+<p>题目要求：<br>
+给定两个数组：nums1和nums2<br>
+找到两个数组中的交集，<strong>每个元素只能出现一次</strong><br>
+因为无需计数，只需要查看是否存在，所以可以尝试使用set</p>
+<pre><code class="language-python"># 方法1
+def intersection(nums1, nums2):
+    Hash = set()
+    res = set()
+    for num in nums1:
+        Hash.add(num)
+    for num in nums2:
+        if num in Hash:
+            res.add(num)
+    return list(res)
+
+# 方法2
+def intersection(nums1, nums2):
+    Hash = set()
+    res = []
+    for num in nums1:
+        Hash.add(num)
+    for num in nums2:
+        if num in Hash and num not in res:
+            res.append(num)
+    return res
+</code></pre>
+<hr>
+<h3 id="快乐数">快乐数</h3>
+<p><a href="https://leetcode.cn/problems/happy-number/description/">力扣202. 快乐数</a></p>
+<p>题目要求：<br>
+对于一个正整数，每次将该数替换为它每个位置上的数字的平方和<br>
+然后重复这个过程直到平方和为1，则返回true，为快乐数，否则返回False，不是快乐数</p>
+<p>上述情况其中会出现<strong>无限循环</strong>情况<br>
+所以其中只需要判断<strong>是否存在无限循环</strong>，<strong>无需统计数量</strong>，所以可以尝试使用set</p>
+<pre><code class="language-python">def isHappy(n):
+    Hash = set()
+    
+    while n not in Hash:
+        Sum = 0
+        Hash.add(n)
+        for num in str(n):
+            Sum += int(num) ** 2
+        if Sum == 1:
+            return True
+        n = Sum
+    return False
+</code></pre>
+<hr>
+<h3 id="两数之和">两数之和</h3>
+<p><a href="https://leetcode.cn/problems/two-sum/">力扣1. 两数之和</a></p>
+<p>题目要求：<br>
+给定一个数组nums和一个数target，要在数组中找到一组二元组满足：<br>
+nums[i] + nums[j] = target, i != j<br>
+且有且仅有一组二元组满足条件</p>
+<pre><code class="language-python">def twoSum(nums, target):
+    Map = collections.defaultdict()
+
+    for i in range(len(nums)):
+        if nums[i] in Map:
+            return [i, Map[nums[i]]]
+        else:
+            Map[target - nums[i]] = i
+    # 因为题目中提出了，有且仅有一个二元组
+</code></pre>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ZeweiXu0219.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

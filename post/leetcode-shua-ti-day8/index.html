@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode刷题Day8 | Frank&#39;s Blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ZeweiXu0219.github.io/favicon.ico?v=1714151395678">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ZeweiXu0219.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://ZeweiXu0219.github.io">
+        <img class="avatar" src="https://ZeweiXu0219.github.io/images/avatar.png?v=1714151395678" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://ZeweiXu0219.github.io">
+        <h1 class="site-title">Frank&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/post/wen-zhang-mu-lu" class="menu purple-link">
+            文章目录
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            所有文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Leetcode刷题Day8</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2024-04-24</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p><strong>主题：字符串</strong></p>
+<h2 id="主要知识点">主要知识点：</h2>
+<p>对于python来说：</p>
+<ol>
+<li>字符串是可以更改的</li>
+<li>通过将字符串转化为list的形式可以对字符串的字符进行更换位置</li>
+</ol>
+<h2 id="经典题目">经典题目：</h2>
+<p>所有的题目都需要通过O(1)的额外空间完成❗️❗️❗️</p>
+<h3 id="反转字符串">反转字符串：</h3>
+<p><a href="https://leetcode.cn/problems/reverse-string/description/">力扣344. 反转字符串</a></p>
+<p>对于一个字符串例如: [&quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot;]<br>
+输出：[&quot;o&quot;, &quot;l&quot;, &quot;l&quot;, &quot;e&quot;, &quot;h&quot;]<br>
+要求：使用O(1)的额外空间解决问题</p>
+<pre><code class="language-python">def reverseString(s):
+    left = 0
+    right = len(s) - 1
+    while left &lt;= right:
+        s[left], s[right] = s[right], s[left]
+        left += 1
+        right -= 1
+    return s
+</code></pre>
+<hr>
+<h3 id="反转字符串-ii">反转字符串 II</h3>
+<p><a href="https://leetcode.cn/problems/reverse-string-ii/description/">力扣541. 反转字符串</a></p>
+<p>题目要求：<br>
+给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。</p>
+<ul>
+<li>如果剩余字符少于 k 个，则将剩余字符全部反转。</li>
+<li>如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。</li>
+</ul>
+<p>输入：s=&quot;abcdefg&quot;, k=2<br>
+输出：&quot;bacdfeg&quot;</p>
+<pre><code class="language-python">class solution(object):
+    def reverseNum(self, nums, start, end):
+        left = start
+        right = end
+        while left &lt;= right:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right -= 1
+        return nums
+    def reverseStr(self, s, k):
+        time = len(s) // (2*k)
+        s = list(s)
+
+        for i in range(time):
+            s = self.reverseNum(s, i*2*k, i*2*k + k - 1)
+        if len(s[time * 2 * k:]) &lt; k:
+            s = self.reverseNum(s, time * 2 * k, len(s) - 1)
+        elif k &lt;= len(s[time * 2 * k]) &lt; 2*k:
+            s = self.reverseNum(s, time * 2 * k, time * 2 * k + k - 1)
+        return &quot;&quot;.join(s)
+</code></pre>
+<hr>
+<h3 id="替换数字">替换数字</h3>
+<p><a href="https://kamacoder.com/problempage.php?pid=1064">卡码网54. 替换数字</a></p>
+<p>主要问题在于如何替换数字：<br>
+将数字转换为&quot;number&quot;<br>
+输入：a1b2c3<br>
+输出anumberbnumbercnumber</p>
+<p>卡码网为ACM模式，所以代码为ACM模式</p>
+<p>其中输入为：</p>
+<pre><code class="language-text">a1b2c3
+</code></pre>
+<p>代码如下：</p>
+<pre><code class="language-python"># 注意ACM模式获取的输入都是字符串，如果需要数字记得转换
+# 获取输入
+a = input()
+# 第二种获取方式
+# import sys
+# for line in sys.stdin:
+#   line = line.strip()
+
+def is_num(inputs):
+    try:
+        if instance(int(inputs),int):
+            return True
+    except:
+        return False
+def solution(inputs):
+    inputs = list(inputs)
+
+    for i in range(len(inputs)):
+        if is_num(inputs[i]):
+            inputs[i] = &quot;number&quot;
+    return &quot;&quot;.join(inputs)
+# ACM模式需要将最后的结果print出来
+# print(solution(input))
+# 更规范的格式：
+if __name__ == &quot;__main__&quot;:
+    print(solution(inputs))
+
+</code></pre>
+<hr>
+<h3 id="反转字符串里的单词">反转字符串里的单词：</h3>
+<p><a href="https://leetcode.cn/problems/reverse-words-in-a-string/description/">力扣151. 反转字符串中的单词</a></p>
+<p>题目要求：<br>
+输入：s = &quot;the sky is blue&quot;<br>
+输出：&quot;blue is sky the&quot;</p>
+<pre><code class="language-python">class solution(object):
+    def reverseList(self, l):
+        left = 0
+        right = len(l) - 1
+        while left &lt;= right:
+            l[left], l[right] = l[right], l[left]
+            left += 1
+            right -= 1
+        return l
+    def reverseWords(s):
+        s = s.split()
+        s = [word for word in s if word != &quot; &quot;]
+
+        s = self.reverseList(s):
+        return &quot; &quot;.join(s)
+</code></pre>
+<hr>
+<h3 id="右旋转字符串">右旋转字符串</h3>
+<p><a href="https://kamacoder.com/problempage.php?pid=1065">卡码网55. 右旋转字符串</a></p>
+<p>题目要求：</p>
+<p>题目示例：<br>
+输入：abcdefg<br>
+输出：fgabcde</p>
+<p>输入：</p>
+<pre><code class="language-text">2
+abcdefg
+</code></pre>
+<p>代码如下：</p>
+<pre><code class="language-python"># 同样是ACM模式
+k = input()
+input_str = input()
+
+# 另外一种方法获取input
+import sys
+idx = 0
+for line in sys.stdin:
+    line = line.strip()
+    if idx == 0:
+        k = int(line)
+    else:
+        input_str = line
+# 两种选一种就行
+
+def reverseList(inputs, start, length):
+    left = start
+    right = start + length - 1
+    while left &lt;= right:
+        inputs[left], inputs[right] = inputs[right], inputs[left]
+        left += 1
+        right -= 1
+    return inputs
+
+def solution(input_s, k):
+    input_s = list(input_s)
+    input_s = reverseList(input_s, 0, len(input_s))
+    input_s = reverseList(input_s, 0, k):
+    input_s = reverseList(input_s, k, len(input_s) - k)
+    return &quot;&quot;.join(input_s)
+# 不要忘记，获取到的input为str，需要将k转化为int
+print(solution(input_s, int(k)))
+
+# 更为正式的方式：
+if __name__ == &quot;__main__&quot;:
+    print(solution(input_s, int(k)))
+# 两种选一种就行
+</code></pre>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ZeweiXu0219.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode刷题Day4 | Frank&#39;s Blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ZeweiXu0219.github.io/favicon.ico?v=1714151395678">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ZeweiXu0219.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://ZeweiXu0219.github.io">
+        <img class="avatar" src="https://ZeweiXu0219.github.io/images/avatar.png?v=1714151395678" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://ZeweiXu0219.github.io">
+        <h1 class="site-title">Frank&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/post/wen-zhang-mu-lu" class="menu purple-link">
+            文章目录
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            所有文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Leetcode刷题Day4</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2024-04-20</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p><strong>主题：链表</strong></p>
+<h2 id="经典题目">经典题目：</h2>
+<h3 id="两两交换链表中的节点">两两交换链表中的节点</h3>
+<p><a href="https://leetcode.cn/problems/swap-nodes-in-pairs/description/">力扣24. 两两交换链表中的节点</a></p>
+<p><strong>重点：需要理解循环不变量！</strong> ❗️❗️❗️</p>
+<pre><code class="language-python">class ListNode(object):
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+
+def swapPairs(head):
+    if not head:
+        return head
+    
+    dummy = ListNode()
+    dummy.next = head
+    prev = dummy
+    cur = head
+
+    while cur and cur.next:
+        tmp = cur.next
+        cur.next = tmp.next
+        prev.next = tmp
+        tmp.next = cur
+        prev = cur
+        cur = cur.next
+    
+    return dummy.next     
+</code></pre>
+<h3 id="删除链表的倒数第n个节点">删除链表的倒数第N个节点</h3>
+<p><a href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/">力扣19.删除链表的倒数第N个节点</a></p>
+<p>题目要求：<br>
+删除倒数第n个节点，并返回新链表</p>
+<pre><code class="language-python">def removeNthFromEnd(self, head, n):
+    # 遍历第一遍，获取链表长度length
+    cur = head
+    length = 0
+    while cur:
+        cur = cur.next
+        length += 1
+    # 计算得出倒数第n个节点的正数的索引
+    idx = length - n
+    # 再次遍历删除该节点
+    dummy = ListNode()
+    dummy.next = head
+    prev = dummy
+    cur = head
+    cur_idx = 0
+    while cur:
+        if idx == cur_idx:
+            prev.next = cur.next
+            break
+        else:
+            prev = prev.next
+            cur = cur.next
+            cur_idx += 1
+    return dummy.next
+
+</code></pre>
+<h3 id="链表相交">链表相交</h3>
+<p><a href="https://leetcode.cn/problems/intersection-of-two-linked-lists-lcci/description/">面试题 02.07. 链表相交</a></p>
+<p>题目要求：<br>
+给你两个链表的头节点，需要找到是否两个链表相交，如果相交，找到相交点，如果不相交，返回None</p>
+<pre><code class="language-python">def getInteractionNode(headA, headB):
+    if not headA or not headB:
+        return None
+    # 计算两个链表的长度
+    l_a = 0
+    cura = headA
+    while cura:
+        cura = cura.next
+        l_a += 1
+    l_b = 0
+    curb = headB
+    while curb:
+        curb = curb.next
+        l_b += 1
+    # 将两个指针的其实位置保持齐平
+    if l_a &gt; l_b:
+        curb = headB
+        cura = headA
+        for _ in range(l_a - l_b):
+            cura = cura.next
+    elif l_a &lt; l_b:
+        cura = headA
+        curb = headB
+        for _ in range(l_b - l_a):
+            curb = curb.next
+    else:
+        cura = headA
+        curb = headB
+    # 同时到结尾
+    test_a = cura
+    test_b = curb
+    while test_a.next and test_b.next:
+        test_a = test_a.next
+        test_b = test_b.next
+    # 查看结尾是否相等，相等说明有交点，不相等说明没有交点
+    # 有交点，需要重新一步一步判断是否相等，返回第一个相等的节点
+    if test_a != test_b:
+        return None
+    else:
+        while cura != curb:
+            cura = cura.next
+            curb = curb.next
+        return cura
+
+</code></pre>
+<h3 id="环形链表">环形链表</h3>
+<p><a href="https://leetcode.cn/problems/linked-list-cycle-ii/description/">力扣142. 环形链表 II</a></p>
+<p>题目要求：<br>
+如果链表内有环：返回环的起始节点<br>
+如果没有环：返回None</p>
+<p>❗️❗️❗️解题思路：<br>
+<img src="../../images/leetcode_pic/listnode_cycle.png" alt="解题思路" title="主要是如何计算x y z的关系" loading="lazy"></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mi>a</mi><mi>s</mi><mi>t</mi><mo>=</mo><mi>α</mi><mo>(</mo><mi>Z</mi><mo>+</mo><mi>Y</mi><mo>)</mo><mo>+</mo><mi>X</mi><mo>+</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">fast = α(Z + Y) + X + Y
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>l</mi><mi>o</mi><mi>w</mi><mo>=</mo><mi>X</mi><mo>+</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">slow = X + Y
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>α</mi><mo>(</mo><mi>Z</mi><mo>+</mo><mi>Y</mi><mo>)</mo><mo>+</mo><mi>X</mi><mo>+</mo><mi>Y</mi><mo>=</mo><mn>2</mn><mo>∗</mo><mo>(</mo><mi>X</mi><mo>+</mo><mi>Y</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">α(Z + Y) + X + Y = 2 * (X + Y)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">当</mi><mi>α</mi><mo>=</mo><mn>1</mn><mi mathvariant="normal">时</mi><mi mathvariant="normal">，</mi><mi>X</mi><mo>=</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">当 α = 1时，X = Z
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord cjk_fallback">当</span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">，</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">当</mi><mi>α</mi><mi mathvariant="normal">≠</mi><mn>1</mn><mi mathvariant="normal">时</mi><mi mathvariant="normal">，</mi><mi>X</mi><mo>=</mo><mi>Z</mi><mo>+</mo><mo>(</mo><mi>α</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>∗</mo><mo>(</mo><mi>Y</mi><mo>+</mo><mi>Z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">当 α ≠ 1时，X = Z + (α - 1)*(Y + Z)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord cjk_fallback">当</span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">，</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mclose">)</span></span></span></span></span></p>
+<p>**所以当我们让他们第一次相遇的时候，另slow或者fast回到起点，都按照步长为1前进，最后相遇的节点一定是环的入口（只不过α ≠ 1时，另外一个指针要在环里面绕α-1圈）<br>
+**</p>
+<pre><code class="language-python">def detectCycle(head):
+    slow = head
+    fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        # 查看slow和fast是否相遇
+        # 相遇：查看环的起始点
+        # 不相遇：返回None
+        if slow == fast:
+            slow = head
+            while slow != fast:
+                slow = slow.next
+                fast = fast.next
+            return slow
+    return None
+
+</code></pre>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ZeweiXu0219.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

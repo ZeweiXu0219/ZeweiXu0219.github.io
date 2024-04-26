@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode刷题Day2 | Frank&#39;s Blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ZeweiXu0219.github.io/favicon.ico?v=1714151395678">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ZeweiXu0219.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://ZeweiXu0219.github.io">
+        <img class="avatar" src="https://ZeweiXu0219.github.io/images/avatar.png?v=1714151395678" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://ZeweiXu0219.github.io">
+        <h1 class="site-title">Frank&#39;s Blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/post/wen-zhang-mu-lu" class="menu purple-link">
+            文章目录
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            所有文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">Leetcode刷题Day2</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2024-04-18</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://ZeweiXu0219.github.io/tag/HSeplSrhE/">
+                    Leetcode
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p><strong>主题：数组</strong></p>
+<p>总结：数组的题目主要需要关注循环的边界，<strong>注意边界条件</strong></p>
+<h2 id="经典题目">经典题目：</h2>
+<h3 id="有序数组的平方">有序数组的平方：</h3>
+<p><a href="https://leetcode.cn/problems/squares-of-a-sorted-array/description/">力扣：977有序数组的平方</a><br>
+解题方法：<strong>双指针法</strong><br>
+题目要求：<br>
+给你一个递增数组nums，需要你返回一个递增的数组，里面的树是原数组元素的平方</p>
+<pre><code class="language-python">def sortedSquares(nums):
+    res = []
+    left = 0
+    right = len(nums) - 1
+    # 注意边界条件
+    while left &lt;= right:
+        left_res = nums[left] ** 2
+        right_res = nums[right] ** 2
+        if left_res &lt; right_res:
+            res.append(right_res)
+            right -= 1
+        else:
+            res.append(left_res)
+            left += 1
+    # 因为这个时候res是递减的，所以需要反转数组
+    return res[::-1]
+</code></pre>
+<hr>
+<h3 id="长度最小的子数组">长度最小的子数组</h3>
+<p><a href="https://leetcode.cn/problems/minimum-size-subarray-sum/description/">力扣：209长度最小的子数组</a><br>
+解题方法：<strong>滑动窗口</strong> （本质还是双指针）<br>
+题目要求：<br>
+给你一个数组nums，和一个数值target，需要你返回一个和大于等于target的最小连续子数组的长度</p>
+<p><strong>重点：</strong> ❗️</p>
+<ol>
+<li>注意题目要求的是连续子数组，所以不能改变原来数组的排列</li>
+<li>如果使用暴力方法会超出时间限制</li>
+<li>最初实现滑动窗口的时候会每一次重新计算sum，但是可以利用一个变量来记录窗口的数值和</li>
+</ol>
+<pre><code class="language-python">def minSubArraryLen(nums, target):
+    # 极端情况
+    if sum(nums) &lt; target:
+        return 0
+    left_win = 0
+    right_win = 0
+    # 利用win_sum来记录窗口和
+    win_sum = 0
+    res = float(&quot;inf&quot;)
+    # 将两个窗口的边界更新分开
+    while right_win &lt; len(nums):
+        win_sum += nums[right_win]
+        # 注意边界条件
+        while win_sum &gt;= target and left_win &lt;= right_win:
+            res = min(res, right_win - left_win + 1)
+            win_sum -= nums[left_win]
+            left_win += 1 
+        right_win += 1
+    return res
+
+</code></pre>
+<hr>
+<h3 id="螺旋矩阵">螺旋矩阵</h3>
+<p><a href="https://leetcode.cn/problems/spiral-matrix-ii/description/">力扣59. 螺旋矩阵II </a><br>
+解题方法：没有技巧，主要是要确定<strong>循环不变量</strong> ❗️❗️❗️<br>
+题目要求：按照如图的顺序生成矩阵<br>
+<img src="../../images/leetcode_pic/rotate_matrix.png" alt="螺旋矩阵" title="如何构造旋转矩阵" loading="lazy"></p>
+<pre><code class="language-python">def generateMatrix(n):
+    res = [[0 for _ in range(n)] for _ in range(n)]
+    startx = 0
+    starty = 0
+    val = 1
+    loops = n // 2
+# 注意每一次的循环不变量
+    for l in range(loops):
+        for i in range(starty, n - l - 1):
+            res[startx][i] = val
+            val += 1
+        for i in range(startx, n - l - 1):
+            res[i][n-l-1] = val 
+            val += 1
+        for i in range(n - l - 1, starty, -1):
+            res[n-l-1][i] = val 
+            val += 1
+        for i in range(n - l - 1, startx, -1):
+            res[i][starty] = val
+            val += 1
+        startx += 1
+        starty += 1
+    if n % 2 != 0:
+        res[startx][starty] = val
+    return res
+</code></pre>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ZeweiXu0219.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
